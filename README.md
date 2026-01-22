@@ -11,10 +11,10 @@ They are NOT the complete/accurate replication of the original "See Large Focus 
 
 ## ✨  Brief Introduction
 1. **Models**:
-*Note: All models above are implemented as 1D (one-dimensional) variants changed for sequential signal processing tasks.*
    - DNCNN
    - LSNet
    - GLSNet
+   Note: All models above are implemented as 1D (one-dimensional) variants changed for sequential signal processing tasks.
 2. **Performance Analysis**:
    - Ready-to-use plotting scripts for quantitative comparison (SNR, MSE, etc.) of all methods
 3. **Dataset Support**:
