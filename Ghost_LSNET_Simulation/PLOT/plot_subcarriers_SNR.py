@@ -298,7 +298,8 @@ def plot_func(ans_list, model_list, channel_name, db_value):
     ax.tick_params(axis='both', which='major', labelsize=18)
     ax.grid(True, which='both', linestyle='--', linewidth=0.5, color='#E0E0E0')
     # ax.legend(loc='upper right', fontsize=10, framealpha=1, edgecolor='black')
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.4), fontsize=18, framealpha=1, edgecolor='black')
+    leg = ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.4), fontsize=18, framealpha=1, edgecolor='black')
+    plt.setp(leg.get_lines(), linewidth=3.0)  # 批量设置所有图例线条宽度
     plt.tight_layout()
 
     plt.savefig(
@@ -311,14 +312,10 @@ def plot_func(ans_list, model_list, channel_name, db_value):
     )
     plt.close()
 
+def get_snr(channel_name, loop, device):
 
-if __name__ == "__main__":
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    channel_name = input('Enter channel name: ChB or ChD? \n')
     snr_list = [40, 30, 20, 10, 0]
     model_list = ["GHOST_LSNET", "LSNET", "DNCNN", "WIENER FILTER"]
-    loop = 1000
 
     for snr in tqdm(snr_list, desc="Processing sizes", unit="size"):
         x, y = load_channel_data('../', snr, 10, 1, [channel_name],
@@ -328,7 +325,7 @@ if __name__ == "__main__":
         ans1 = np.array(GLSNET_EVALUATE(snr, 'GHOST_LSNET', channel_name, DLNET, x, y, loop))
 
         DLNET = LSNet_1D().to(device)
-        ans2 = np.array(LSNET_EVALUATE(snr,  'LSNET', channel_name, DLNET, x, y, loop))
+        ans2 = np.array(LSNET_EVALUATE(snr, 'LSNET', channel_name, DLNET, x, y, loop))
 
         DLNET = DNCNN().to(device)
         ans3 = np.array(DNCNN_EVALUATE(snr, 'DNCNN', channel_name, DLNET, x, y, loop))
@@ -340,11 +337,17 @@ if __name__ == "__main__":
         arr3 = []
         arr4 = []
         for idx in range(1001):
-            arr1.append(mean_confidence_interval(ans1[:,idx]))
-            arr2.append(mean_confidence_interval(ans2[:,idx]))
-            arr3.append(mean_confidence_interval(ans3[:,idx]))
-            arr4.append(mean_confidence_interval(ans4[:,idx]))
+            arr1.append(mean_confidence_interval(ans1[:, idx]))
+            arr2.append(mean_confidence_interval(ans2[:, idx]))
+            arr3.append(mean_confidence_interval(ans3[:, idx]))
+            arr4.append(mean_confidence_interval(ans4[:, idx]))
 
         ans_list = np.array([arr1, arr2, arr3, arr4])
         plot_func(ans_list, model_list, channel_name, snr)
+
+if __name__ == "__main__":
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    get_snr(channel_name='ChB', loop=1000, device=device)
+    get_snr(channel_name='ChD', loop=1000, device=device)
 

@@ -172,7 +172,7 @@ def plotfunc_mse(arr_list, model_list, channel_name):
 
         ax.plot(x_axis, mse_high, linestyle='-.', color=main_color, linewidth=2.0)
         ax.plot(x_axis, mse_low, linestyle='-.', color=main_color, linewidth=2.0)
-        ax.plot(x_axis, mse_mean, linestyle='-', marker=marker_list[idx], markersize=10, label=f'{model_name} (Mean ± 99% CI)', color=main_color, linewidth=1.0)
+        ax.plot(x_axis, mse_mean, linestyle='-', marker=marker_list[idx], markersize=12, label=f'{model_name} (Mean ± 99% CI)', color=main_color, linewidth=1.0)
 
     plt.xlabel(f'SNR of Original Signal in {channel_name}', fontsize=18)
     plt.ylabel(f'MSE of Filtered Signal in {channel_name}', fontsize=18)
@@ -196,12 +196,10 @@ def plotfunc_mse(arr_list, model_list, channel_name):
     plt.close()
 
 
-if __name__ == "__main__":
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    channel_name = input('Enter channel name: ChB or ChD? \n')
+
+def get_mse(channel_name, loop, device):
     snr_list = [0, 10, 20, 30, 40]
     model_list = ["GHOST_LSNET", "LSNET", "DNCNN", "WIENER FILTER"]
-    loop = 1000
 
     arr1 = []
     arr2 = []
@@ -228,5 +226,10 @@ if __name__ == "__main__":
 
     arr_list = np.array([arr1, arr2, arr3, arr4])
     plotfunc_mse(arr_list, model_list, channel_name)
+
+if __name__ == "__main__":
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    get_mse(channel_name='ChB', loop=1000, device=device)
+    get_mse(channel_name='ChD', loop=1000, device=device)
 
 
