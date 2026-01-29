@@ -590,9 +590,9 @@ def train_glsnet(m, margin, db_value, channel_name):
 if __name__ == "__main__":
     train_glsnet(0, 10, 40, 'ChB')
     train_glsnet(0, 10, 30, 'ChB')
-    train_glsnet(0,10,20, 'ChB')
-    train_glsnet(0,10,10, 'ChB')
-    train_glsnet(0,10,0, 'ChB')
+    train_glsnet(0, 10, 20, 'ChB')
+    train_glsnet(0, 10, 10, 'ChB')
+    train_glsnet(0, 10, 0, 'ChB')
 
     train_glsnet(0, 10, 40, 'ChD')
     train_glsnet(0, 10, 30, 'ChD')
