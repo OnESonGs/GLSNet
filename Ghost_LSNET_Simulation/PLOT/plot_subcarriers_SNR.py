@@ -299,7 +299,7 @@ def plot_func(ans_list, model_list, channel_name, db_value):
     ax.grid(True, which='both', linestyle='--', linewidth=0.5, color='#E0E0E0')
     # ax.legend(loc='upper right', fontsize=10, framealpha=1, edgecolor='black')
     leg = ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.4), fontsize=18, framealpha=1, edgecolor='black')
-    plt.setp(leg.get_lines(), linewidth=3.0)  # 批量设置所有图例线条宽度
+    plt.setp(leg.get_lines(), linewidth=3.0)   
     plt.tight_layout()
 
     plt.savefig(
